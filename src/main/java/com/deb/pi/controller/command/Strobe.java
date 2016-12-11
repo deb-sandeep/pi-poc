@@ -2,17 +2,18 @@ package com.deb.pi.controller.command;
 
 import com.pi4j.io.gpio.*;
 
-public class High extends Command {
+public class Strobe extends Command {
     
-    public High() {
-        super( "high" );
+    public Strobe() {
+        super( "strobe" );
     }
     
     @Override
     public void execute( Parameter[] parameters ) throws Exception{
         super.parameters = parameters;
         GpioPinDigitalOutput pin = null;
-        int timeDelay = -1;
+        int timeDelay = 100;
+        int repeats = 10;
         
         for( Parameter p : parameters ) {
             if( p == null ) {
@@ -24,16 +25,16 @@ public class High extends Command {
             else if( p.getIdentifier().equals( "-time" ) ) {
                 timeDelay = Integer.parseInt( p.getObject().toString() );
             }
+            else if( p.getIdentifier().equals( "-num" ) ) {
+            	repeats = Integer.parseInt( p.getObject().toString() );
+            }
         }
-        
-        if( timeDelay > -1 ) {
+               	
+    	for( int i=0; i<repeats; i++ ) {
             pin.high();
             Thread.sleep( timeDelay );
             pin.low();
-            System.out.println( "Done" );
-        }
-        else {
-            pin.high();
-        }
+            Thread.sleep( timeDelay );
+    	}
     }    
 }

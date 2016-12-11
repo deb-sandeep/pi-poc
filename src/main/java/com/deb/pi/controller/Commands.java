@@ -6,7 +6,8 @@ public class Commands {
     
     public static final Command HIGH = new High();
     public static final Command LOW  = new Low();
+    public static final Command STROBE = new Strobe();
     
-    public static final Command[] commands = new Command[]{ HIGH, LOW };
+    public static final Command[] commands = new Command[]{ HIGH, LOW, STROBE };
     
 }

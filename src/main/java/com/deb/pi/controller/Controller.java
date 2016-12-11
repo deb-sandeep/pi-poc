@@ -61,6 +61,7 @@ public class Controller {
                     pin.low();
                     gpio.unprovisionPin( pin );
                 }
+                sc.close();
                 gpio.shutdown();
                 System.exit( 1 );
             }
@@ -73,6 +74,6 @@ public class Controller {
                     c.execute( parameters );
                 }
             }
-        }            
+        }
     }
 }

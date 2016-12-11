@@ -1,8 +1,6 @@
 package com.deb.pi.controller.command;
 
 import com.pi4j.io.gpio.*;
-import com.pi4j.io.gpio.trigger.*;
-import com.pi4j.io.gpio.event.*;
 
 public class Low extends Command {
     
@@ -30,9 +28,9 @@ public class Low extends Command {
         
         if( timeDelay > -1 ) {
             pin.low();
-            System.out.println( "Done" );
             Thread.sleep( timeDelay );
             pin.high();
+            System.out.println( "Done" );
         }
         else {
             pin.low();
