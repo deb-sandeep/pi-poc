@@ -7,6 +7,6 @@ public class HelloWorld {
     private static final Logger log = Logger.getLogger( HelloWorld.class ) ;
 
     public static void main( String[] args ) {
-        log.debug( "Hello from Pi3" ) ;
+        log.debug( "Hello from Pi3 with some changes." ) ;
     }
 }
