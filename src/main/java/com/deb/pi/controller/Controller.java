@@ -47,7 +47,7 @@ public class Controller {
                                              pin16
                                          } ;                                                                                         
     
-    public static void main( String args[] ) throws Exception{
+    public static void main( String args[] ) {
         
         final Scanner sc = new Scanner( System.in );
 
@@ -71,7 +71,12 @@ public class Controller {
                         
             for( Command c : Commands.commands ) {
                 if( c.getName().equals( command ) ) {
-                    c.execute( parameters );
+                	try {
+                		c.execute( parameters );
+                	}
+                	catch( Exception ex ) {
+                		System.out.println( command + ": unknown command" );
+                	}
                 }
             }
         }
