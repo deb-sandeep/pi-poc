@@ -1,33 +1,35 @@
 package com.deb.pi.controller;
 
 import com.deb.pi.controller.command.*;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.pi4j.io.gpio.*;
 
 public class Controller {
     
-    public static final GpioController gpio = GpioFactory.getInstance();
+    private static final GpioController gpio = GpioFactory.getInstance();
     
-    public static final GpioPinDigitalOutput pin0  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_00, "pin0", PinState.LOW );
-    public static final GpioPinDigitalOutput pin1  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_01, "pin1", PinState.LOW );
-    public static final GpioPinDigitalOutput pin2  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_02, "pin2", PinState.LOW );
-    public static final GpioPinDigitalOutput pin3  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_03, "pin3", PinState.LOW );
-    public static final GpioPinDigitalOutput pin4  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_04, "pin4", PinState.LOW );
-    public static final GpioPinDigitalOutput pin5  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_05, "pin5", PinState.LOW );
-    public static final GpioPinDigitalOutput pin6  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_06, "pin6", PinState.LOW );
-    public static final GpioPinDigitalOutput pin7  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_07, "pin7", PinState.LOW  );
-    public static final GpioPinDigitalOutput pin8  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_08, "pin8", PinState.LOW  );
-    public static final GpioPinDigitalOutput pin9  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_09, "pin9", PinState.LOW  );
-    public static final GpioPinDigitalOutput pin10 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_10, "pin10", PinState.LOW );
-    public static final GpioPinDigitalOutput pin11 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_11, "pin11", PinState.LOW );
-    public static final GpioPinDigitalOutput pin12 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_12, "pin12", PinState.LOW );
-    public static final GpioPinDigitalOutput pin13 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_13, "pin13", PinState.LOW );
-    public static final GpioPinDigitalOutput pin14 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_14, "pin14", PinState.LOW );
-    public static final GpioPinDigitalOutput pin15 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_15, "pin15", PinState.LOW );
-    public static final GpioPinDigitalOutput pin16 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_16, "pin16", PinState.LOW );
+    private static final GpioPinDigitalOutput pin0  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_00, "pin00", PinState.LOW );
+    private static final GpioPinDigitalOutput pin1  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_01, "pin01", PinState.LOW );
+    private static final GpioPinDigitalOutput pin2  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_02, "pin02", PinState.LOW );
+    private static final GpioPinDigitalOutput pin3  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_03, "pin03", PinState.LOW );
+    private static final GpioPinDigitalOutput pin4  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_04, "pin04", PinState.LOW );
+    private static final GpioPinDigitalOutput pin5  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_05, "pin05", PinState.LOW );
+    private static final GpioPinDigitalOutput pin6  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_06, "pin06", PinState.LOW );
+    private static final GpioPinDigitalOutput pin7  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_07, "pin07", PinState.LOW  );
+    private static final GpioPinDigitalOutput pin8  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_08, "pin08", PinState.LOW  );
+    private static final GpioPinDigitalOutput pin9  = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_09, "pin09", PinState.LOW  );
+    private static final GpioPinDigitalOutput pin10 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_10, "pin10", PinState.LOW );
+    private static final GpioPinDigitalOutput pin11 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_11, "pin11", PinState.LOW );
+    private static final GpioPinDigitalOutput pin12 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_12, "pin12", PinState.LOW );
+    private static final GpioPinDigitalOutput pin13 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_13, "pin13", PinState.LOW );
+    private static final GpioPinDigitalOutput pin14 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_14, "pin14", PinState.LOW );
+    private static final GpioPinDigitalOutput pin15 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_15, "pin15", PinState.LOW );
+    private static final GpioPinDigitalOutput pin16 = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_16, "pin16", PinState.LOW );
     
-    public static final GpioPinDigitalOutput[] pins = new GpioPinDigitalOutput[]{
+    private static final GpioPinDigitalOutput[] allPins = new GpioPinDigitalOutput[]{
                                              pin0, 
                                              pin1, 
                                              pin2,
@@ -45,12 +47,26 @@ public class Controller {
                                              pin14,
                                              pin15,
                                              pin16
-                                         } ;                                                                                         
+                                         } ;
+    
+    public static ArrayList<GpioPinDigitalOutput> pins = new ArrayList<GpioPinDigitalOutput>();
     
     public static void main( String args[] ) {
         
         final Scanner sc = new Scanner( System.in );
-
+        Config.output = "4->16";
+        Config.enabledPins = new int[]{ 0, 1, 2, 3 };
+        
+        for( int i=0; i<Config.enabledPins.length; i++ ) {
+        	String s = String.format( "%2s", i+"" ).replace(' ', '0');
+        	
+        	for( GpioPinDigitalOutput pin : allPins ) {
+        		if( pin.getName().endsWith( s ) ) {
+        			pins.add( pin );
+        		}
+        	}
+        }
+        
         while( true ) {
             
             System.out.print( "> " );
@@ -75,7 +91,8 @@ public class Controller {
                 		c.execute( parameters );
                 	}
                 	catch( Exception ex ) {
-                		System.out.println( command + ": unknown command" );
+                		ex.printStackTrace();
+                		System.out.println( command + ": bad parameters" );
                 	}
                 }
             }

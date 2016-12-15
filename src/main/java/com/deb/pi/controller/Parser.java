@@ -36,6 +36,7 @@ public class Parser {
                 return pin;
             }
         }
+        System.out.println( pinName + ": Pin is not enabled" );
         return null;                
     }
 }
