@@ -1,5 +1,6 @@
 package com.deb.pi.controller.command;
 
+import com.deb.pi.controller.Controller;
 import com.pi4j.io.gpio.*;
 
 public class High extends Command {
@@ -26,11 +27,26 @@ public class High extends Command {
             }
         }
         
-        if( timeDelay > -1 ) {
+        if( pin == null ) {
+        	if( timeDelay > -1 ) {
+	        	for( GpioPinDigitalOutput out : Controller.pins ) {
+	        		out.high();
+	        	}
+        		Thread.sleep( timeDelay );
+	        	for( GpioPinDigitalOutput out : Controller.pins ) {
+	        		out.low();
+	        	}
+        	}
+        	else {
+	        	for( GpioPinDigitalOutput out : Controller.pins ) {
+	        		out.high();
+	        	}        		
+        	}
+        }
+        else if( timeDelay > -1 ) {
             pin.high();
             Thread.sleep( timeDelay );
             pin.low();
-            System.out.println( "Done" );
         }
         else {
             pin.high();

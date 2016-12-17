@@ -54,8 +54,7 @@ public class Controller {
     public static void main( String args[] ) {
         
         final Scanner sc = new Scanner( System.in );
-        Config.output = "4->16";
-        Config.enabledPins = new int[]{ 0, 1, 2, 3 };
+        Config.enabledPins = new int[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         
         for( int i=0; i<Config.enabledPins.length; i++ ) {
         	String s = String.format( "%2s", i+"" ).replace(' ', '0');

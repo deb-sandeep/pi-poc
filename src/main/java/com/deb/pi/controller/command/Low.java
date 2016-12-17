@@ -1,5 +1,6 @@
 package com.deb.pi.controller.command;
 
+import com.deb.pi.controller.Controller;
 import com.pi4j.io.gpio.*;
 
 public class Low extends Command {
@@ -25,8 +26,23 @@ public class Low extends Command {
                 timeDelay = Integer.parseInt( p.getObject().toString() );
             }
         }
-        
-        if( timeDelay > -1 ) {
+        if( pin == null ) {
+        	if( timeDelay > -1 ) {
+	        	for( GpioPinDigitalOutput out : Controller.pins ) {
+	        		out.low();
+	        	}
+        		Thread.sleep( timeDelay );
+	        	for( GpioPinDigitalOutput out : Controller.pins ) {
+	        		out.high();
+	        	}
+        	}
+        	else {
+	        	for( GpioPinDigitalOutput out : Controller.pins ) {
+	        		out.low();
+	        	}        		
+        	}
+        }        
+        else if( timeDelay > -1 ) {
             pin.low();
             Thread.sleep( timeDelay );
             pin.high();
