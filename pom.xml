@@ -57,5 +57,10 @@
         <artifactId>jlayer</artifactId>
         <version>1.0.1</version>
     </dependency>
+    <dependency>
+        <groupId>com.tomgibara.bits</groupId>
+        <artifactId>bits</artifactId>
+        <version>2.1.0</version>
+    </dependency>
   </dependencies>
 </project>
