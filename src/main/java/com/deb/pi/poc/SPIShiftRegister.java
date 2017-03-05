@@ -1,5 +1,7 @@
 package com.deb.pi.poc;
 
+import java.nio.ByteBuffer;
+
 import com.pi4j.io.spi.SpiChannel;
 import com.pi4j.io.spi.SpiDevice;
 import com.pi4j.io.spi.SpiFactory;
@@ -14,11 +16,10 @@ public class SPIShiftRegister {
 	
 	public void runTest() throws Exception {
 		clear();
-		for( int i=0; i<256; i++ ) {
+		for( int i=0; i<2048; i++ ) {
 			System.out.println( "Writing " + i ) ;
 			write( i ) ;
-			Thread.sleep( 100 ) ;
-			clear() ;
+			Thread.sleep( 20 ) ;
 		}
 		clear() ;
 	}
@@ -28,7 +29,8 @@ public class SPIShiftRegister {
 	}
 	
 	private void write( int i ) throws Exception {
-		shiftRegister.write( (byte)i ) ;
+		byte[] bytes = ByteBuffer.allocate( 4 ).putInt( i ).array();
+		shiftRegister.write( bytes ) ;
 	}
 
 	public static void main(String[] args) throws Exception {
